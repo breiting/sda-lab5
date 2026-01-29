@@ -1,0 +1,48 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface IObserver {
+  +Update(sensorName: std::string, value: double) : void
+}
+
+class Sensor {
+  -m_Name : std::string
+  -m_Observers : std::vector<std::shared_ptr<IObserver>>
+  +Sensor(name: std::string)
+  +Attach(obs: std::shared_ptr<IObserver>) : void
+  +Detach(obs: std::shared_ptr<IObserver>) : void
+  +Name() : std::string
+  #Notify(value: double) : void
+}
+
+class TemperatureSensor {
+  -m_Temperature : double
+  +TemperatureSensor(name: std::string)
+  +SetTemperature(t: double) : void
+  +Temperature() : double
+}
+
+class DisplayObserver {
+  -m_LastValue : double
+  -m_LastSensorName : std::string
+  +Update(sensorName: std::string, value: double) : void
+  +LastValue() : double
+  +LastSensorName() : std::string
+}
+
+class AlarmObserver {
+  -m_Threshold : double
+  -m_On : bool
+  +AlarmObserver(threshold: double)
+  +Update(sensorName: std::string, value: double) : void
+  +IsOn() : bool
+}
+
+Sensor <|-- TemperatureSensor
+IObserver <|.. DisplayObserver
+IObserver <|.. AlarmObserver
+
+Sensor "1" o-- "0..*" IObserver : holds (shared_ptr)
+TemperatureSensor ..> Sensor : Notify()
+
+@enduml

@@ -9,6 +9,10 @@ You are given:
 
 Your task is to implement the missing classes so that **all tests pass**.
 
+Here is the UML diagram of the classes:
+
+![Observer UML Diagram](docs/uml_diagram.png)
+
 ## Observer Pattern – in one sentence
 
 A **Subject** (Sensor) maintains a list of **Observers** and notifies them when its state changes.
